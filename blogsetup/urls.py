@@ -19,4 +19,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
+    
+    # ADDED TO LOG OUT AND LOG IN AS DIFFERENT USERS
+    path('api-auth/', include('rest_framework.urls')),
 ]
