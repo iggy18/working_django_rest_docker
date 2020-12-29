@@ -13,4 +13,4 @@ class RetrieveUpdateDestroyPost(RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     #ADDED TO AUTH USER
-    permission_classes = (IsAuthorized)
+    permission_classes = [IsAuthorized]
