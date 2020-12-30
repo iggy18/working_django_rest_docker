@@ -131,7 +131,21 @@ STATIC_URL = '/static/'
 
 # ADDED TO REQUIRE AUTHENTICATION
 REST_FRAMEWORK = {
+
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated' 
+        'rest_framework.permissions.IsAuthenticated',
     ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    )
 }
+
+STATIC_ROOT = '/home/django/django_project/django_project/static'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
