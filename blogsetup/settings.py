@@ -9,9 +9,19 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
-# import environ
+import environ
+
+
+env = environ.Env(
+    # ADDED TO make sure Django doesn't start pushing out to much information on the error pages
+    DEBUG=(bool, False)
+)
+
+# ADDED TO read .env file
+environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +30,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'c9ix_-u#o^-y(i9f8a@yn!&-dxz9(@04%v0&6!(abgkkeonpp5'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+debug = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+
+ALLOWED_HOSTS = tuple(env.list('ALLOWED_HOSTS'))
 
 
 # Application definition
@@ -43,10 +54,12 @@ INSTALLED_APPS = [
 
     #3rd party
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,11 +95,11 @@ WSGI_APPLICATION = 'blogsetup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD':  env('DATABASE_PASSWORD'),
+        'HOST':  env('DATABASE_HOST'),
+        'PORT':  env('DATABASE_PORT')
     }
 }
 
@@ -143,7 +156,7 @@ REST_FRAMEWORK = {
     )
 }
 
-STATIC_ROOT = '/home/django/django_project/django_project/static'
+STATIC_ROOT = '/static/'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
