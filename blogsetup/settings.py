@@ -16,7 +16,7 @@ import environ
 
 env = environ.Env(
     # ADDED TO make sure Django doesn't start pushing out to much information on the error pages
-    DEBUG=(bool, False)
+    DEBUG=(bool, True)
 )
 
 # ADDED TO read .env file
@@ -154,8 +154,8 @@ REST_FRAMEWORK = {
     )
 }
 
-STATIC_ROOT = '/static/'
-STATIC_URL = '/static/'
+STATIC_ROOT = '.static/'
+STATIC_URL = '.static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
